@@ -2,6 +2,8 @@
 ### A meta story about robo-humanity
 #### [Story Dev't](https://davideliason.github.io/rex-a-meta-story/)
 
+#### [Website](http://rexrobotix.com/)
+
 #### Description
 
 Rex, a robot who navigates the intersection between humanity and a mechanical being, navigates building relationships, showing integrity and self-awareness while navigating life’s challenges in a dystopian future.
