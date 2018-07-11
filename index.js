@@ -6,8 +6,8 @@ require('dotenv').config()
 
 //configuring the AWS environment
 AWS.config.update({
-    accessKeyId: "<Access Key Here>",
-    secretAccessKey: "<Secret Access Key Here>"
+    accessKeyId: process.env.AWS_ACCESSKEY_ID,
+    secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY
   });
 
 var s3 = new AWS.S3();
@@ -15,7 +15,7 @@ var filePath = "./data/file.txt";
 
 //configuring parameters
 var params = {
-  Bucket: '<Bucket Name Here>',
+  Bucket: 'rexrobotix.com',
   Body : fs.createReadStream(filePath),
   Key : "folder/"+Date.now()+"_"+path.basename(filePath)
 };
