@@ -14,3 +14,4 @@ This will be a world first built within the mind and imagination, then with pixe
 
 * [CloudFront Setup to S3 Bucket](https://medium.com/@jstubblefield7939/serving-static-files-with-amazon-cloudfront-cdn-ccec91a985cd)
 * [Using Cloudfront CDN in a link](https://stackoverflow.com/questions/31617390/css-files-not-loading-from-aws-s3)
+* [Upload a file to s3 bucket](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/s3-example-creating-buckets.html)
