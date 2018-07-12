@@ -9,6 +9,17 @@ var upload = multer({
 	dest: "uploads/"
 });
 
+const storage = multer.diskStorage({
+  destination: 'picture_storage',
+  filename: function (req, file, callback) {
+	   crypto.pseudoRandomBytes(16, function(err, raw) {
+	  if (err) return callback(err);
+
+  		callback(null, raw.toString('hex') + path.extname(file.originalname));
+});
+  }
+});
+
 var app = express()
 
 // middleware
@@ -47,7 +58,7 @@ var app = express()
    	fs.writeFile('image.txt', data, (err) => {
    		if(err) console.log(err);
    	});
-   	res.end("You uploaded" + req.file.size);
+   	res.end("You uploaded" + req.file.originalname);
    });
 
    app.listen(8080);
