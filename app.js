@@ -93,6 +93,15 @@ var users = {
 	}
 };
 
+function booleanAuthenticated(req, res, next) {
+	if (req.isAuthenticated()) {
+		next();
+	} else {
+		res.redirect("/login");
+	}
+}
+
+
 // configure strategy
 passport.use(new LocalStrategy(
 	function (username, password, done) {
@@ -181,6 +190,9 @@ app.post("/login",
 	})
 );
 
+app.get("/members", booleanAuthenticated, function (req, res) {
+	res.send("secret members only area!");
+});
 
 
 // return cookie value
