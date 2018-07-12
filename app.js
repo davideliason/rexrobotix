@@ -5,6 +5,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var multer = require('multer');
+var crypto = require('crypto');
 var upload = multer({
 	dest: "uploads/"
 });
@@ -60,6 +61,21 @@ var app = express()
    	});
    	res.end("You uploaded" + req.file.originalname);
    });
+
+   app.post('/', upload.single('avatar'), (req, res) => {
+  if (!req.file) {
+    console.log("No file received");
+    return res.send({
+      success: false
+    });
+
+  } else {
+    console.log('file received');
+    return res.send({
+      success: true
+    })
+  }
+});
 
    app.listen(8080);
 
