@@ -5,13 +5,8 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var multer = require('multer');
-var crypto = require('crypto');
 var upload = multer({
 	dest: "uploads/"
-});
-
-const storage = multer({
-  dest: 'picture_storage'
 });
 
 var app = express()
@@ -29,7 +24,7 @@ var app = express()
 		cookie: { maxAge: 180000}
 	}));
 
-
+   // Sessions
    app.get('/',function(req,res) {
    	var sessData = req.session;
    	sessData.last_access = new Date();
@@ -46,6 +41,7 @@ var app = express()
    	res.send(`You had logged in at ${loggedIn}`);
    });
 
+   // multer
    app.post('/uptest', upload.single('photo'), function(req,res,next) {
    	var data = req.file;
    	console.log(typeof data);
@@ -55,44 +51,9 @@ var app = express()
    	res.end("You uploaded" + req.file.originalname);
    });
 
-   app.post('/', storage.single('avatar'), (req, res) => {
-  if (!req.file) {
-    console.log("No file received");
-    return res.send({
-      success: false
-    });
-
-  } else {
-    console.log('file received');
-    // res.send({
-    //   success: true,
-    // });
-    res.end("You uploaded " + req.file.originalname + "with mime type: " + req.file.mimetype + " of this size: " + req.file.size + " at req.file.destination")
-  }
-});
-
    app.listen(8080);
 
 
 
-// routes
-// app.get('/', (req,res) => {
-// 	res.sendFile('/index.html');
-// });
-
-// app.use(session({ secret: 'this-is-a-secret-toke', cookie: { maxAge: 60000 }}));
- 
-// Access the session as req.session
-// app.get('/', function(req, res, next) {
-//   var sessData = req.session;
-//   sessData.someAttribute = "foo";
-//   res.send('Returning with some text');
-// });
-
-
-// app.get('/bar', function(req, res, next) {
-//   var someAttribute = req.session.someAttribute;
-//   res.send(`This will print the attribute I set earlier: ${someAttribute}`);
-// });
 
 // app.listen(8080);
