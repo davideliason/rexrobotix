@@ -10,15 +10,8 @@ var upload = multer({
 	dest: "uploads/"
 });
 
-const storage = multer.diskStorage({
-  destination: 'picture_storage',
-  filename: function (req, file, callback) {
-	   crypto.pseudoRandomBytes(16, function(err, raw) {
-	  if (err) return callback(err);
-
-  		callback(null, raw.toString('hex') + path.extname(file.originalname));
-});
-  }
+const storage = multer({
+  dest: 'picture_storage'
 });
 
 var app = express()
@@ -62,7 +55,7 @@ var app = express()
    	res.end("You uploaded" + req.file.originalname);
    });
 
-   app.post('/', upload.single('avatar'), (req, res) => {
+   app.post('/', storage.single('avatar'), (req, res) => {
   if (!req.file) {
     console.log("No file received");
     return res.send({
@@ -71,9 +64,10 @@ var app = express()
 
   } else {
     console.log('file received');
-    return res.send({
-      success: true
-    })
+    // res.send({
+    //   success: true,
+    // });
+    res.end("You uploaded " + req.file.originalname + "with mime type: " + req.file.mimetype + " of this size: " + req.file.size + " at req.file.destination")
   }
 });
 
