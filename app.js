@@ -10,7 +10,7 @@ const express = require('express'),
 	passport = require('passport'),
 	flash = require('express-flash'),
 	cookieParser = require('cookie-parser'),
-	localStrategy = require('passport-local').Strategy,
+	LocalStrategy = require('passport-local').Strategy,
 	upload = multer({
 		dest: "uploads/"
 	});
@@ -93,8 +93,22 @@ var users = {
 	}
 };
 
-
-
+// configure strategy
+passport.use(new LocalStrategy(
+	function (username, password, done) {
+		for (userid in users) {
+			var user = users[userid];
+			if (user.username.toLowerCase() == username.toLowerCase()) {
+				// we have a match!
+				if (user.password == password) {
+					return done(null, user);
+				}
+			}
+		}
+		// if not match, then...
+		return done(null, false, { message: "Wrong credentials" });
+	}
+));
 
 app.use('/', express.static(path.join(__dirname, '/public')));
 
