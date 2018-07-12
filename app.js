@@ -191,7 +191,7 @@ app.post("/login",
 );
 
 app.get("/members", booleanAuthenticated, function (req, res) {
-	res.send("secret members only area!");
+	res.send("enter into great stuff link here");
 });
 
 
