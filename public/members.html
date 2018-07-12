@@ -15,19 +15,20 @@
 <body>
     <div class="container">
         <div class="jumbotron">
-            <h1>Welcome!</h1>
+            <h1>Rex Robotix</h1>
+            <img src="./photo-storage/bsg.jpg" width="100" alt="bsg">
             <a href="/login">Login</a>
+        </div>
+        <div>
+            <!-- public/index.html file -->
+            <form action="/upload" enctype="multipart/form-data" method="POST">
+                <input type="file" name="photo" />
+                <input type="submit" value="Upload Photo" />
+            </form>
         </div>
 
     </div>
     </nav>
-
-    <div class="container text-center">
-        <div class="col-sm-12">
-            <p>Login to meet Rex..</p>
-        </div>
-    </div>
-
 </body>
 
 </html>

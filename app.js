@@ -68,7 +68,7 @@ var session_configuration = {
 // HTTPS is inconvenient for dev
 session_configuration.cookie.secure = false;
 
-
+// app.use(express.static('public'));
 // middleware
 app.use(flash());
 app.use(session(session_configuration));
@@ -140,7 +140,7 @@ passport.deserializeUser(function (userid, done) {
 	}
 });
 // remove so that server route provided link will be rendered
-// app.use('/', express.static(path.join(__dirname, '/public')));
+app.use('/', express.static(path.join(__dirname, '/public')));
 
 // simple use of cookie
 app.get('/', function (req, res) {
@@ -153,7 +153,7 @@ app.get('/', function (req, res) {
 	// });
 	// res.sendFile('index.html');
 	console.log(req.flash());
-	res.end('<a href="/login">Login</a>');
+	res.sendFile('/public/index.html');
 });
 
 app.get("/login", function (req, res) {
@@ -191,7 +191,7 @@ app.post("/login",
 );
 
 app.get("/members", booleanAuthenticated, function (req, res) {
-	res.sendFile(__dirname + "/public/index.html");
+	res.sendFile(__dirname + "/public/members.html");
 });
 
 
