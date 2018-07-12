@@ -1,11 +1,11 @@
 var express = require('express');
 var session = require('express-session');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const path = require('path');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
-var app = express();
+const app = express();
 
 app.use(session({ secret: 'this-is-a-secret-token', cookie: { maxAge: 60000 }}));
 // middleware
