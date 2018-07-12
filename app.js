@@ -147,6 +147,31 @@ app.get('/', function (req, res) {
 	res.end('<a href="/login">Login</a>');
 });
 
+app.get("/login", function (req, res) {
+
+	var error = req.flash("error");
+
+	var form = '<form action="/login" method="post">' +
+		'    <div>' +
+		'        <label>Username:</label>' +
+		'        <input type="text" name="username"/>' +
+		'    </div>' +
+		'    <div>' +
+		'        <label>Password:</label>' +
+		'        <input type="password" name="password"/>' +
+		'    </div>' +
+		'    <div>' +
+		'        <input type="submit" value="Log In"/>' +
+		'    </div>' +
+		'</form>';
+
+	if (error && error.length) {
+		form = "<b style='color: red'> " + error[0] + "</b><br/>" + form;
+	}
+
+	res.send(form);
+});
+
 // return cookie value
 app.get('/loggedin', function (req, res, next) {
 	var loggedIn = req.session.last_access;
