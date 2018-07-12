@@ -15,11 +15,13 @@ const storage = multer({
   dest: 'picture_storage'
 });
 
+var maxSize = 1 * 1000 * 1000;
+
 const multerConfig = {
-    
+
 storage: multer.diskStorage({
  //Setup where the user's file will go
- destination: function(req, file, next){
+    destination: function(req, file, next){
    next(null, './public/photo-storage');
    },   
     
@@ -46,6 +48,10 @@ storage: multer.diskStorage({
           //TODO:  A better message response to user on failure.
           return next();
         }
+    },
+
+    limits: {
+    	fileSize: maxSize
     }
   };
 
