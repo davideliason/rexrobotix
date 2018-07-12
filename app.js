@@ -110,6 +110,9 @@ passport.use(new LocalStrategy(
 	}
 ));
 
+// passport does not serialize the entire object, a vulnerability. 
+// instead, it asks us what value it should use to store a user to session data.
+
 passport.serializeUser(function (user, done) {
 	if (users["id" + user.id]) {
 		done(null, "id" + user.id);
@@ -118,6 +121,8 @@ passport.serializeUser(function (user, done) {
 	}
 });
 
+// when a new page is loaded, passport will pass the value it used to store a user to session data
+// to following function, where we can pass back the full user object.
 passport.deserializeUser(function (userid, done) {
 	if (users[userid]) {
 		done(null, users[userid]);
@@ -125,8 +130,8 @@ passport.deserializeUser(function (userid, done) {
 		done(new Error("CANT_FIND_USER_TO_DESERIALIZE"));
 	}
 });
-
-app.use('/', express.static(path.join(__dirname, '/public')));
+// remove so that server route provided link will be rendered
+// app.use('/', express.static(path.join(__dirname, '/public')));
 
 // simple use of cookie
 app.get('/', function (req, res) {
@@ -134,10 +139,12 @@ app.get('/', function (req, res) {
 	sessData.last_access = new Date();
 	var x = sessData.last_access;
 	console.log("last logged" + x);
-	fs.writeFile('session.txt', x.toString(), (err) => {
-		if (err) console.log(err);
-	});
-	res.sendFile('index.html');
+	// fs.writeFile('session.txt', x.toString(), (err) => {
+	// 	if (err) console.log(err);
+	// });
+	// res.sendFile('index.html');
+	console.log(req.flash());
+	res.end('<a href="/login">Login</a>');
 });
 
 // return cookie value
