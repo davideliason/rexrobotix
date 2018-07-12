@@ -1,12 +1,13 @@
-var express = require('express');
-var session = require('express-session');
-var path = require('path');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var fs = require('fs');
-var multer = require('multer');
-var crypto = require('crypto');
-var upload = multer({
+// RUN PACKAGES
+
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const multer = require('multer');
+const upload = multer({
 	dest: "uploads/"
 });
 
@@ -48,90 +49,59 @@ storage: multer.diskStorage({
     }
   };
 
-var app = express()
+// SETUP APP
+const app = express();
+const port = process.env.PORT || 8080;
 
 // middleware
-   .use(logger('dev'))
-   .use(bodyParser.json())
-   .use(bodyParser.urlencoded({ extended: false }))
+app.use(logger('dev'))
+app.use(bodyParser.json()) // JSON
+app.use(bodyParser.urlencoded({ extended: false })) // body requests
 // app.use(cookieParser())
    // .use(express.static(path.join(__dirname,'public')))
-   .use(session({
+ app.use(session({
 		secret: "asdfasd",
 		resave: false,
 		saveUninitiated: true,
 		cookie: { maxAge: 180000}
 	}))
-   .use(express.static('public'));
+app.use('/', express.static(__dirname + '/public')); 
 
 
-   app.get('/',function(req,res) {
-   	var sessData = req.session;
-   	sessData.last_access = new Date();
-   	var x = sessData.last_access;
-   	console.log("last logged" + x);
-   	fs.writeFile('session.txt',x.toString(), (err) => {
-   		if(err) console.log(err);
-   	});
-   	res.sendFile('index.html');
-   });
+app.get('/',function(req,res) {
+	var sessData = req.session;
+	sessData.last_access = new Date();
+	var x = sessData.last_access;
+	console.log("last logged" + x);
+	fs.writeFile('session.txt',x.toString(), (err) => {
+		if(err) console.log(err);
+	});
+	res.sendFile('index.html');
+	});
 
-   app.get('/loggedin', function(req,res,next) {
-   	var loggedIn = req.session.last_access;
-   	res.send(`You had logged in at ${loggedIn}`);
-   });
+app.get('/loggedin', function(req,res,next) {
+	var loggedIn = req.session.last_access;
+	res.send(`You had logged in at ${loggedIn}`);
+	});
 
-   app.post('/uptest', upload.single('photo'), function(req,res,next) {
-   	var data = req.file;
-   	console.log(typeof data);
-   	fs.writeFile('image.txt', data, (err) => {
-   		if(err) console.log(err);
-   	});
-   	res.end("You uploaded" + req.file.originalname);
-   });
+	// multer
+app.post('/uptest', upload.single('photo'), function(req,res,next) {
+	var data = req.file;
+	console.log(typeof data);
+	fs.writeFile('image.txt', data, (err) => {
+		if(err) console.log(err);
+	});
+	res.end("You uploaded" + req.file.originalname);
+	});
 
-   app.post('/', storage.single('avatar'), (req, res) => {
-  if (!req.file) {
-    console.log("No file received");
-    return res.send({
-      success: false
-    });
 
-  } else {
-    console.log('file received');
-    // res.send({
-    //   success: true,
-    // });
-    res.end("You uploaded " + req.file.originalname + "with mime type: " + req.file.mimetype + " of this size: " + req.file.size + " at req.file.destination")
-  }
-});
+app.post('/upload',multer(multerConfig).single('photo'),function(req,res){
+	res.send('Complete!');
+	});
 
-   app.post('/upload',multer(multerConfig).single('photo'),function(req,res){
-   res.send('Complete!');
-});
-
-   app.listen(8080);
+app.listen(port);
 
 
 
-// routes
-// app.get('/', (req,res) => {
-// 	res.sendFile('/index.html');
-// });
-
-// app.use(session({ secret: 'this-is-a-secret-toke', cookie: { maxAge: 60000 }}));
- 
-// Access the session as req.session
-// app.get('/', function(req, res, next) {
-//   var sessData = req.session;
-//   sessData.someAttribute = "foo";
-//   res.send('Returning with some text');
-// });
-
-
-// app.get('/bar', function(req, res, next) {
-//   var someAttribute = req.session.someAttribute;
-//   res.send(`This will print the attribute I set earlier: ${someAttribute}`);
-// });
 
 // app.listen(8080);
