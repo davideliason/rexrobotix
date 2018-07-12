@@ -110,6 +110,22 @@ passport.use(new LocalStrategy(
 	}
 ));
 
+passport.serializeUser(function (user, done) {
+	if (users["id" + user.id]) {
+		done(null, "id" + user.id);
+	} else {
+		done(new Error("CANT_SERIALIZE_INVALID_USER"));
+	}
+});
+
+passport.deserializeUser(function (userid, done) {
+	if (users[userid]) {
+		done(null, users[userid]);
+	} else {
+		done(new Error("CANT_FIND_USER_TO_DESERIALIZE"));
+	}
+});
+
 app.use('/', express.static(path.join(__dirname, '/public')));
 
 // simple use of cookie
