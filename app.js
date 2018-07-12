@@ -18,16 +18,26 @@ var app = express()
 		resave: false,
 		saveUninitiated: true,
 		cookie: { maxAge: 180000}
-	}))
-   .use(function(req,res) {
-   	req.session.last_access = new Date();
-   	var x = req.session.last_access;
-   	console.log(x);
+	}));
+
+
+   app.get('/',function(req,res) {
+   	var sessData = req.session;
+   	sessData.last_access = new Date();
+   	var x = sessData.last_access;
+   	console.log("last logged" + x);
    	fs.writeFile('session.txt',x.toString(), (err) => {
    		if(err) console.log(err);
-   	})
-   })
-   .listen(8080);
+   	});
+   	res.send(`you logged on ${x}`);
+   });
+
+   app.get('/loggedin', function(req,res,next) {
+   	var loggedIn = req.session.last_access;
+   	res.send(`You had logged in at ${loggedIn}`);
+   });
+
+   app.listen(8080);
 
 
 
