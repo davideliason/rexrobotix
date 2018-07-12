@@ -65,7 +65,7 @@ app.use(bodyParser.urlencoded({ extended: false })) // body requests
 		saveUninitiated: true,
 		cookie: { maxAge: 180000}
 	}))
-app.use('/', express.static(__dirname + '/public')); 
+app.use('/', express.static(path.join(__dirname, '/public'))); 
 
 
 app.get('/',function(req,res) {
