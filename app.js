@@ -1,15 +1,17 @@
 // RUN PACKAGES
 
-const express = require('express');
-const session = require('express-session');
-const path = require('path');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const fs = require('fs');
-const multer = require('multer');
-const upload = multer({
-	dest: "uploads/"
-});
+const express = require('express'),
+	session = require('express-session'),
+	path = require('path'),
+	logger = require('morgan'),
+	bodyParser = require('body-parser'),
+	fs = require('fs'),
+	multer = require('multer'),
+	passport = require('passport'),
+	localStrategy = require('passport-local').Strategy,
+	upload = multer({
+		dest: "uploads/"
+	});
 
 var maxSize = 1 * 1000 * 1000;
 
