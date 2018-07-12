@@ -172,6 +172,17 @@ app.get("/login", function (req, res) {
 	res.send(form);
 });
 
+app.post("/login",
+	passport.authenticate('local', {
+		successRedirect: '/members',
+		failureRedirect: '/login',
+		successFlash: { message: "welcome back" },
+		failureFlash: true
+	})
+);
+
+
+
 // return cookie value
 app.get('/loggedin', function (req, res, next) {
 	var loggedIn = req.session.last_access;
