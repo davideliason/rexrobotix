@@ -4,6 +4,10 @@ var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var fs = require('fs');
+var multer = require('multer');
+var upload = multer({
+	dest: "uploads/"
+});
 
 var app = express()
 
@@ -35,6 +39,12 @@ var app = express()
    app.get('/loggedin', function(req,res,next) {
    	var loggedIn = req.session.last_access;
    	res.send(`You had logged in at ${loggedIn}`);
+   });
+
+   app.post('/uptest', upload.single('photo'), function(req,res,next) {
+   	var data = req.file;
+   	console.log(typeof data);
+   	res.end("You uploaded" + req.file.size);
    });
 
    app.listen(8080);
