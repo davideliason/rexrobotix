@@ -8,6 +8,8 @@ const express = require('express'),
 	fs = require('fs'),
 	multer = require('multer'),
 	passport = require('passport'),
+	flash = require('express-flash'),
+	cookieParser = require('cookie-parser'),
 	localStrategy = require('passport-local').Strategy,
 	upload = multer({
 		dest: "uploads/"
@@ -54,20 +56,46 @@ const multerConfig = {
 };
 
 // SETUP APP
-const app = express();
 const port = process.env.PORT || 8080;
 
+const app = express();
+var session_configuration = {
+	secret: "griffendorf",
+	resave: false,
+	saveUninitiated: true,
+	cookie: { maxAge: 180000 }
+};
+// HTTPS is inconvenient for dev
+session_configuration.cookie.secure = false;
+
+
 // middleware
+app.use(flash());
+app.use(session(session_configuration));
+app.use(cookieParser('hello there buddy'));
+app.use(passport.initialize());
+app.use(passport.session()); // persisten login sessions
+
 app.use(logger('dev'))
 app.use(bodyParser.json()) // JSON
 app.use(bodyParser.urlencoded({ extended: false })) // body requests
 
-app.use(session({
-	secret: "asdfasd",
-	resave: false,
-	saveUninitiated: true,
-	cookie: { maxAge: 180000 }
-}))
+var users = {
+	"id123456": {
+		id: 123456,
+		username: "tom",
+		password: "talker"
+	},
+	"id1": {
+		id: 1,
+		username: "bob",
+		password: "sparkles"
+	}
+};
+
+
+
+
 app.use('/', express.static(path.join(__dirname, '/public')));
 
 // simple use of cookie
