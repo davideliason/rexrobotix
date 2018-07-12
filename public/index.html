@@ -1,15 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Rex</title>
+  <title>Rex Robotix</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./styles/style.css">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="jumbotron">
-            <h1>Rex Robotix</h1>
-        </div>
+
+  <div class="jumbotron">
+    <div class="container text-center">
+      <h1>Rex Photos</h1>
+     <p>upload photos</p>
+     <img src="/photo-storage/photo-1531397669480.jpeg">
     </div>
+  </div>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+
+      </div>
+    </div>
+  </nav>
+
+  <div class="container text-center">
+      <div class="col-sm-12">
+        <div class="form">
+          <h1>Upload a photo!</h1>
+
+           <!-- IMAGE UPLOAD FORM -->
+          <form action="/upload" enctype="multipart/form-data" method="POST">
+
+                <div class="section">Note: Only image files are allowed.</div>
+                <div class="inner-wrap">
+                  <label><input type="file" id="photo" name="photo" /></label>
+                  <div class="button-section">
+                    <input type="submit" name="Upload" value="Upload Photo"/>
+                  </div>
+                </div>
+
+            </div>
+          </form>
+
+
+        </div>
+      </div>
+  </div>
+
+
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
