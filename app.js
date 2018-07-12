@@ -3,6 +3,7 @@ var session = require('express-session');
 var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
 var app = express()
 
@@ -20,9 +21,11 @@ var app = express()
 	}))
    .use(function(req,res) {
    	req.session.last_access = new Date();
-   	
    	var x = req.session.last_access;
-   	res.end("you asked for this at" + x);
+   	console.log(x);
+   	fs.writeFile('session.txt',x.toString(), (err) => {
+   		if(err) console.log(err);
+   	})
    })
    .listen(8080);
 
