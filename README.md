@@ -6,9 +6,10 @@
 
 #### Description
 
-Rex, a robot who navigates the intersection between humanity and a mechanical being, navigates building relationships, showing integrity and self-awareness while navigating life’s challenges in a dystopian future.
+Use of MERN stack to input user values and data, persist data, render using React, using express.
 
-This will be a world first built within the mind and imagination, then with pixelated paint atoms and finally with pure light pixels as conveyed by electrons and movement as harnessed by those electrons. From the ethereal, to the real, and then somewhere in the middle where they intersect. The story will use the canvas of the imagination, playa, screen, and mechanical movement.
+#### Notes
+1. Used multer for multipart form post image upload, saving to local folder for first step before wiring up db.
 
 ### Useful Resources:
 
