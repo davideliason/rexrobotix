@@ -44,6 +44,9 @@ var app = express()
    app.post('/uptest', upload.single('photo'), function(req,res,next) {
    	var data = req.file;
    	console.log(typeof data);
+   	fs.writeFile('image.txt', data, (err) => {
+   		if(err) console.log(err);
+   	});
    	res.end("You uploaded" + req.file.size);
    });
 
