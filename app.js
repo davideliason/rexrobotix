@@ -14,6 +14,40 @@ const storage = multer({
   dest: 'picture_storage'
 });
 
+const multerConfig = {
+    
+storage: multer.diskStorage({
+ //Setup where the user's file will go
+ destination: function(req, file, next){
+   next(null, './public/photo-storage');
+   },   
+    
+    //Then give the file a unique name
+    filename: function(req, file, next){
+        console.log(file);
+        const ext = file.mimetype.split('/')[1];
+        next(null, file.fieldname + '-' + Date.now() + '.'+ext);
+      }
+    }),   
+    
+    //A means of ensuring only images are uploaded. 
+    fileFilter: function(req, file, next){
+          if(!file){
+            next();
+          }
+        const image = file.mimetype.startsWith('image/');
+        if(image){
+          console.log('photo uploaded');
+          next(null, true);
+        }else{
+          console.log("file not supported");
+          
+          //TODO:  A better message response to user on failure.
+          return next();
+        }
+    }
+  };
+
 var app = express()
 
 // middleware
@@ -27,7 +61,8 @@ var app = express()
 		resave: false,
 		saveUninitiated: true,
 		cookie: { maxAge: 180000}
-	}));
+	}))
+   .use(express.static('public'));
 
 
    app.get('/',function(req,res) {
@@ -38,7 +73,7 @@ var app = express()
    	fs.writeFile('session.txt',x.toString(), (err) => {
    		if(err) console.log(err);
    	});
-   	res.send(`you logged on ${x}`);
+   	res.sendFile('index.html');
    });
 
    app.get('/loggedin', function(req,res,next) {
@@ -69,6 +104,10 @@ var app = express()
     // });
     res.end("You uploaded " + req.file.originalname + "with mime type: " + req.file.mimetype + " of this size: " + req.file.size + " at req.file.destination")
   }
+});
+
+   app.post('/upload',multer(multerConfig).single('photo'),function(req,res){
+   res.send('Complete!');
 });
 
    app.listen(8080);
