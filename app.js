@@ -134,27 +134,20 @@ MongoClient.connect(url, function (err, db) {
 	dbase.collection("characters").insertOne(sam, function (err, res) {
 		if (err) throw err;
 		console.log("one doc inserted");
-		db.close();
 	});
-});
 
-
-MongoClient.connect(url, function (err, db) {
-	if (err) throw err;
-	var dbo = db.db("rexrobotix");
-	var myquery
-		= {
-
-		name: "sam"
-	};
+	var myquery = { first_name: "sam" };
 	var newvalues = { $set: { name: "Sam", description: "cyborg bridging two worlds" } };
 
-	dbo.collection("characters").updateOne(myquery, newvalues, function (err, res) {
+	dbase.collection("characters").updateOne(myquery, newvalues, function (err, res) {
 		if (err) throw err;
 		console.log("1 document updated");
 		db.close();
 	});
 });
+
+
+
 
 
 
