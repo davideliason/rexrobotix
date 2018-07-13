@@ -14,7 +14,7 @@ const express = require('express'),
 	upload = multer({
 		dest: "uploads/"
 	});
-var MongoClient = require('mongodb').MongoClient;
+
 var maxSize = 1 * 1000 * 1000;
 
 const multerConfig = {
@@ -93,13 +93,35 @@ var users = {
 	}
 };
 
-var url = 'mongodb://localhost:27017/tribes';
-var db;
-MongoClient.connect(url, { useNewUrlParser: true }, (err, dbase) => {
-	if (err) return cb(err);
-	console.log("server connected");
-	db = dbase;
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function (err, db) {
+	if (err) throw err;
+	console.log("Database created!");
+	var dbase = db.db("rexrobotix");
+
+	dbase.createCollection("tribes", function (err, res) {
+		if (err) throw err;
+		console.log("Collection created!");
+		db.close();
+	});
 });
+
+
+
+var tribe = {
+	_id: "mystics",
+	name: "believe in ganzas",
+	description: "post-normative beliefs govern this tribe"
+}
+
+// tribes.insertOne(tribe, (err, inserted_doc) => {
+// 	if (err) {
+// 		console.log("booboo happened");
+// 		return;
+// 	}
+// });
 
 function booleanAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
@@ -107,6 +129,7 @@ function booleanAuthenticated(req, res, next) {
 	} else {
 		res.redirect("/login");
 	}
+	// continue
 }
 
 
