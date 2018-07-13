@@ -101,7 +101,7 @@ MongoClient.connect(url, function (err, db) {
 	console.log("Database created!");
 	var dbase = db.db("rexrobotix");
 
-	dbase.createCollection("tribes", function (err, res) {
+	dbase.createCollection("characters", function (err, res) {
 		if (err) throw err;
 		console.log("Collection created!");
 		db.close();
@@ -110,19 +110,31 @@ MongoClient.connect(url, function (err, db) {
 
 MongoClient.connect(url, function (err, db) {
 	var dbase = db.db("rexrobotix");
-	var tribe = {
-		_id: "mystics",
-		name: "believe in ganzas",
+
+	var sam = {
+		_id: "mysticCyborg",
+		name: "Sam",
 		description: "post-normative beliefs govern this tribe"
 	};
 
-	dbase.collection("tribes").insertOne(tribe, function (err, res) {
+	dbase.collection("characters").insertOne(sam, function (err, res) {
 		if (err) throw err;
 		console.log("one doc inserted");
 		db.close();
 	});
 });
 
+MongoClient.connect(url, function (err, db) {
+	if (err) throw err;
+	var dbo = db.db("rexrobotix");
+	var myquery = { name: "Sam" };
+	var newvalues = { $set: { name: "Samuel", description: "cyborg bridging two worlds" } };
+	dbo.collection("characters").updateOne(myquery, newvalues, function (err, res) {
+		if (err) throw err;
+		console.log("1 document updated");
+		db.close();
+	});
+});
 
 function booleanAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
