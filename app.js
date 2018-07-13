@@ -107,15 +107,15 @@ MongoClient.connect(url, function (err, db) {
 		console.log("Collection created!" + res);
 	});
 
-	var mystictribe = {
-		_id: "mystictribe",
-		tribeid: "mystictribe",
-		description: "perceive that which lies outside the normative"
+	var humantribe = {
+		_id: "humantribe",
+		tribeid: "humantribe",
+		description: "genetic humans"
 	}
 
-	dbase.collection("tribes").insertOne(mystictribe, (err, res) => {
+	dbase.collection("tribes").insertOne(humantribe, (err, res) => {
 		if (err) throw err;
-		console.log('mystic tribe collection added');
+		console.log('human tribe collection added');
 	});
 
 	dbase.createCollection("characters", function (err, res) {
@@ -123,15 +123,15 @@ MongoClient.connect(url, function (err, db) {
 		console.log("Collection created!" + res);
 	});
 
-	var sam = {
-		_id: "samthemystic",
-		tribeid: "mystictribe",
-		first_name: "sam",
-		last_name: "themystic",
-		description: "post-normative beliefs govern this cyborg"
+	var bob = {
+		_id: "bobthehuman",
+		tribeid: "humantribe",
+		first_name: "bob",
+		last_name: "theman",
+		description: "bob is just bob"
 	};
 
-	dbase.collection("characters").insertOne(sam, function (err, res) {
+	dbase.collection("characters").insertOne(bob, function (err, res) {
 		if (err) throw err;
 		console.log("one doc inserted");
 	});
@@ -144,6 +144,9 @@ MongoClient.connect(url, function (err, db) {
 		console.log("1 document updated");
 		db.close();
 	});
+
+	var data = dbase.collection("characters").find({ "first_name": "Sam" }).nextObject;
+	console.log("here is the found object" + data);
 });
 
 
