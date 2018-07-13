@@ -108,20 +108,21 @@ MongoClient.connect(url, function (err, db) {
 	});
 });
 
+MongoClient.connect(url, function (err, db) {
+	var dbase = db.db("rexrobotix");
+	var tribe = {
+		_id: "mystics",
+		name: "believe in ganzas",
+		description: "post-normative beliefs govern this tribe"
+	};
 
+	dbase.collection("tribes").insertOne(tribe, function (err, res) {
+		if (err) throw err;
+		console.log("one doc inserted");
+		db.close();
+	});
+});
 
-var tribe = {
-	_id: "mystics",
-	name: "believe in ganzas",
-	description: "post-normative beliefs govern this tribe"
-}
-
-// tribes.insertOne(tribe, (err, inserted_doc) => {
-// 	if (err) {
-// 		console.log("booboo happened");
-// 		return;
-// 	}
-// });
 
 function booleanAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
