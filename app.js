@@ -9,12 +9,12 @@ const express = require('express'),
 	multer = require('multer'),
 	passport = require('passport'),
 	flash = require('express-flash'),
-	cookieParser = require('cookie-parser'),
+	// cookieParser = require('cookie-parser'),
 	LocalStrategy = require('passport-local').Strategy,
 	upload = multer({
 		dest: "uploads/"
 	});
-
+var MongoClient = require('mongodb').MongoClient;
 var maxSize = 1 * 1000 * 1000;
 
 const multerConfig = {
@@ -72,7 +72,7 @@ session_configuration.cookie.secure = false;
 // middleware
 app.use(flash());
 app.use(session(session_configuration));
-app.use(cookieParser('hello there buddy'));
+// app.use(cookieParser('hello there buddy'));
 app.use(passport.initialize());
 app.use(passport.session()); // persisten login sessions
 
@@ -92,6 +92,14 @@ var users = {
 		password: "sparkles"
 	}
 };
+
+var url = 'mongodb://localhost:27017/tribes';
+var db;
+MongoClient.connect(url, { useNewUrlParser: true }, (err, dbase) => {
+	if (err) return cb(err);
+	console.log("server connected");
+	db = dbase;
+});
 
 function booleanAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
